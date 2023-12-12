@@ -12,7 +12,7 @@ type TLocationProps = {
     page: number | string;
 };
 
-export default function Location() {
+const LocationsPage = () => {
     const [state, setState] = useState<ILocationResponse | null>();
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || "1";
@@ -33,7 +33,7 @@ export default function Location() {
         <main>
             <div>
                 {state?.results.map((location) => (
-                    <Link href={"/"} key={location.id}>
+                    <Link href={{ pathname: "character", query: { locationId: location.id } }} key={location.id}>
                         <LocationCard location={location} />
                     </Link>
                 ))}
@@ -42,4 +42,6 @@ export default function Location() {
             {state?.info && <PaginationFooter pageCount={state?.info.pages} pathname='location' />}
         </main>
     );
-}
+};
+
+export default LocationsPage;
