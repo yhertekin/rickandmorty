@@ -33,7 +33,10 @@ const LocationsPage = () => {
         <main>
             <div>
                 {state?.results.map((location) => (
-                    <Link href={{ pathname: "character", query: { locationId: location.id } }} key={location.id}>
+                    <Link
+                        href={{ pathname: "character", query: { locationId: location.id, status: "all" } }}
+                        key={location.id}
+                    >
                         <LocationCard location={location} />
                     </Link>
                 ))}

@@ -13,9 +13,9 @@ export interface ICharacterResponse {
     created: string;
 }
 
-export type TCharacterStatus = "alive" | "dead" | "unknown";
+export type TCharacterStatus = "Alive" | "Dead" | "Unknown";
 
-export type TCharacterGender = "female" | "male" | "genderless" | "unknown";
+export type TCharacterGender = "Female" | "Male" | "Genderless" | "Unknown";
 
 export type TOrigin = {
     name: string;
