@@ -1,0 +1,29 @@
+.location {
+	border: 1px solid black;
+	padding: $space-4;
+	border-radius: $rounded-md;
+	margin: $space-4;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	&__content {
+		display: flex;
+		gap: $space-4;
+		& > div {
+			display: flex;
+			flex-direction: column;
+		}
+
+		&__title {
+			font-weight: $font-bold;
+		}
+
+		&__info {
+		}
+
+		span {
+			padding: $space-1;
+		}
+	}
+}

@@ -1,4 +1,23 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    async rewrites() {
+        return [
+            {
+                source: "/",
+                destination: "/location?page=1",
+            },
+        ];
+    },
 
-module.exports = nextConfig
+    async redirects() {
+        return [
+            {
+                source: "/",
+                destination: "/location?page=1",
+                statusCode: 301,
+            },
+        ];
+    },
+};
+
+module.exports = nextConfig;
