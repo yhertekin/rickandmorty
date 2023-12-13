@@ -1,3 +1,6 @@
+import { addFavoriteCharacter, removeFavoriteCharacter } from "@/redux/features/favoriteCharacter-slice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { ICharacterResponse } from "@/interfaces/ICharacter";
 import Image from "next/image";
 import React from "react";
@@ -8,8 +11,24 @@ type TCharacterCardProps = {
 };
 
 const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
+    const favoriteCharactersList = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacters);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleAdd = () => {
+        dispatch(addFavoriteCharacter(character));
+    };
+
+    const handleRemove = () => {
+        dispatch(removeFavoriteCharacter(character.id));
+    };
+
     return (
         <div className='character'>
+            <button onClick={handleAdd}>Add To Favorite</button>
+            <button onClick={handleRemove}>Remove From Favorite</button>
+
+            {favoriteCharactersList &&
+                favoriteCharactersList.map((character) => <div key={character.id}>Favorite: {character.name}</div>)}
             <Image className='character__image' src={character.image} width={100} height={100} alt={character.name} />
             <div>
                 <div>
