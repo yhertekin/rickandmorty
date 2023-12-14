@@ -1,29 +1,41 @@
 .location {
-	border: 1px solid black;
-	padding: $space-4;
-	border-radius: $rounded-md;
-	margin: $space-4;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+    @extend %layout;
 
-	&__content {
-		display: flex;
-		gap: $space-4;
-		& > div {
-			display: flex;
-			flex-direction: column;
-		}
+    padding: $space-2;
+    border-radius: $rounded-lg;
+    margin: $space-4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: $box-shadow;
 
-		&__title {
-			font-weight: $font-bold;
-		}
+    &:hover {
+        box-shadow: $box-shadow-green;
+    }
 
-		&__info {
-		}
+    @include gt-xs {
+        padding: $space-4;
+    }
 
-		span {
-			padding: $space-1;
-		}
-	}
+    &__content {
+        display: flex;
+        gap: $space-4;
+        & > div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__title {
+            font-weight: $font-semibold;
+            color: $brown;
+        }
+
+        &__info {
+            color: $brown;
+        }
+
+        span {
+            padding: $space-1;
+        }
+    }
 }

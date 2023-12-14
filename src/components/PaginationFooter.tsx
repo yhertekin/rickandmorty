@@ -4,17 +4,23 @@ import React, { useEffect } from "react";
 type TPaginationFooterProps = {
     pageCount: number;
     pathname: "location" | "character";
-};
+    currentPage: number;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const PaginationFooter = ({ pageCount, pathname }: TPaginationFooterProps) => {
+const PaginationFooter = ({ pageCount, pathname, currentPage, className }: TPaginationFooterProps) => {
     useEffect(() => {
         console.log("PaginationFooter Component Mounted");
     }, []);
     return (
-        <div>
-            pagination footer
+        <div className={`pagination-footer ${className}`}>
             {Array.from({ length: pageCount }).map((v, pageNumber: number) => (
-                <Link href={{ pathname: pathname, query: { page: pageNumber + 1 } }} key={pageNumber}>
+                <Link
+                    className={`pagination-footer__link pagination-footer__link--${
+                        currentPage === pageNumber + 1 && "current"
+                    }`}
+                    href={{ pathname: pathname, query: { page: pageNumber + 1 } }}
+                    key={pageNumber}
+                >
                     {pageNumber + 1}
                 </Link>
             ))}

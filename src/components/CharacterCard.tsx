@@ -2,8 +2,13 @@ import { addFavoriteCharacter, removeFavoriteCharacter } from "@/redux/features/
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ICharacterResponse } from "@/interfaces/ICharacter";
+import FavoriteFilled from "@/assets/icons/FavoriteFilled.svg";
+import FavoriteEmpty from "@/assets/icons/FavoriteEmpty.svg";
+import NavigateNext from "@/assets/icons/NavigateNext.svg";
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 type TCharacterCardProps = {
     character: ICharacterResponse;
@@ -11,38 +16,49 @@ type TCharacterCardProps = {
 };
 
 const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
+    const [state, setState] = useState<{ inFavorites: boolean }>({ inFavorites: false });
     const favoriteCharactersList = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacters);
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleAdd = () => {
+    const handleFavorite = () => {
+        if (state.inFavorites) {
+            return dispatch(removeFavoriteCharacter(character.id));
+        }
         dispatch(addFavoriteCharacter(character));
     };
 
-    const handleRemove = () => {
-        dispatch(removeFavoriteCharacter(character.id));
-    };
+    useEffect(() => {
+        const check = favoriteCharactersList.filter((favoriteChracter) => favoriteChracter?.id === character.id);
+        setState((prevState) => ({ ...prevState, inFavorites: check.length > 0 }));
+    }, [favoriteCharactersList]);
 
     return (
         <div className='character'>
-            <button onClick={handleAdd}>Add To Favorite</button>
-            <button onClick={handleRemove}>Remove From Favorite</button>
-
-            {favoriteCharactersList &&
-                favoriteCharactersList.map((character) => <div key={character.id}>Favorite: {character.name}</div>)}
-            <div style={{ position: "relative", width: "100px", height: "100px", borderRadius: "20px" }}>
+            <div className='character__image__container'>
                 <Image
-                    style={{ objectFit: "cover", borderRadius: "5px" }}
-                    className='character__image'
-                    src={character.image}
+                    src={state.inFavorites ? FavoriteFilled : FavoriteEmpty}
+                    className='character__image__container__favorite'
+                    alt='Favorite'
+                    width='50'
+                    height='50'
+                    onClick={handleFavorite}
+                />
+                <Image
                     fill
+                    className='character__image__container__image'
+                    src={character.image}
                     alt={character.name}
                     sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                 />
             </div>
-            <div>
+            <div className='character__info'>
                 <div>
-                    <h1 className='character__name'>{character.name}</h1>
-                    <p className='character__status'>
+                    <Link href={`/character/${character.id}`}>
+                        <h1 className='character__info__name'>{character.name}</h1>
+                    </Link>
+                    <p
+                        className={`character__info__status character__info__status--${character.status.toLocaleLowerCase()}`}
+                    >
                         {character.status} - {character.species}
                     </p>
                 </div>
@@ -52,7 +68,9 @@ const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
                         <span className='character__detail__gender'>{character.gender}</span>
                     </div>
                 ) : (
-                    <div className='character__select'>select</div>
+                    <div className='character__select'>
+                        <Image src={NavigateNext} width='40' height='40' alt='Select Character' />
+                    </div>
                 )}
                 {detailed && <div className='character__origin'>{character.origin.name}</div>}
             </div>

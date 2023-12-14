@@ -1,0 +1,90 @@
+.location__page {
+    @extend %layout;
+
+    &__list {
+        display: grid;
+        grid-template-columns: 1fr;
+
+        @include gt-sm {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include gt-md {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        padding-bottom: $space-20;
+    }
+
+    &__footer {
+    }
+}
+
+.characters__page {
+    @extend %layout;
+
+    & > div:nth-child(1) {
+        display: flex;
+        flex-direction: column;
+        margin: 0 $space-4;
+
+        & > div:nth-child(1) {
+            display: flex;
+            justify-content: space-between;
+
+            span,
+            a {
+                font-weight: $font-bold;
+            }
+
+            a:hover {
+                color: $green;
+            }
+        }
+    }
+
+    .characters__page__filters {
+        margin: $space-6 0;
+        a {
+            margin-right: $space-4;
+            padding: $space-2 $space-4;
+            border-radius: $rounded;
+        }
+
+        a:nth-child(1) {
+            box-shadow: $box-shadow-green;
+            color: $green;
+            &:hover,
+            &.selected {
+                background-color: $green;
+                color: white;
+            }
+        }
+        a:nth-child(2) {
+            box-shadow: $box-shadow-red;
+            color: $red;
+            &:hover,
+            &.selected {
+                background-color: $red;
+                color: white;
+            }
+        }
+        a:nth-child(3) {
+            box-shadow: $box-shadow-brown;
+            color: $brown;
+            &:hover,
+            &.selected {
+                background-color: $brown;
+                color: white;
+            }
+        }
+    }
+
+    &__characters {
+        display: flex;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

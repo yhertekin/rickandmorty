@@ -77,39 +77,48 @@ const CharactersPage = () => {
     }, [state]);
 
     return (
-        <div>
+        <div className='characters__page'>
             <div>
-                <Link
-                    href={{
-                        pathname: "/character",
-                        query: { locationId, status: status === "Alive" ? "all" : "Alive" },
-                    }}
-                >
-                    Alive
-                </Link>
-                <Link
-                    href={{
-                        pathname: "/character",
-                        query: { locationId, status: status === "Dead" ? "all" : "Dead" },
-                    }}
-                >
-                    Dead
-                </Link>
-                <Link
-                    href={{
-                        pathname: "/character",
-                        query: { locationId, status: status === "Unknown" ? "all" : "Unknown" },
-                    }}
-                >
-                    Unknown
-                </Link>
-            </div>
-            {state?.filteredCharacters &&
-                state?.filteredCharacters.map((character) => (
-                    <Link href={`/character/${character.id}`} key={character.id}>
-                        <CharacterCard character={character} detailed={false} />
+                <div>
+                    <span>Filter By Status</span>
+                    <Link href='/character/favorites'>My Favorites</Link>
+                </div>
+                <div className='characters__page__filters'>
+                    <Link
+                        className={status === "Alive" ? "selected" : ""}
+                        href={{
+                            pathname: "/character",
+                            query: { locationId, status: status === "Alive" ? "all" : "Alive" },
+                        }}
+                    >
+                        Alive
                     </Link>
-                ))}
+                    <Link
+                        className={status === "Dead" ? "selected" : ""}
+                        href={{
+                            pathname: "/character",
+                            query: { locationId, status: status === "Dead" ? "all" : "Dead" },
+                        }}
+                    >
+                        Dead
+                    </Link>
+                    <Link
+                        className={status === "Unknown" ? "selected" : ""}
+                        href={{
+                            pathname: "/character",
+                            query: { locationId, status: status === "Unknown" ? "all" : "Unknown" },
+                        }}
+                    >
+                        Unknown
+                    </Link>
+                </div>
+            </div>
+            <div className='characters__page__characters'>
+                {state?.filteredCharacters &&
+                    state?.filteredCharacters.map((character) => (
+                        <CharacterCard character={character} detailed={false} key={character.id} />
+                    ))}
+            </div>
         </div>
     );
 };

@@ -13,8 +13,10 @@ const FavoriteCharactersPage = () => {
 
     return (
         <div>
-            {favoriteCharactersList &&
-                favoriteCharactersList.map((favorite) => <CharacterCard character={favorite} detailed={true} />)}
+            {favoriteCharactersList.length > 0 &&
+                favoriteCharactersList.map((favorite) => (
+                    <CharacterCard character={favorite} detailed={true} key={favorite.id} />
+                ))}
         </div>
     );
 };
