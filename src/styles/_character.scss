@@ -1,9 +1,16 @@
 .character {
+    @include gt-xs {
+        width: 100%;
+    }
     &__image__container {
         position: relative;
         width: clamp(50px, 100vw, 300px);
         height: auto;
         aspect-ratio: 1;
+
+        @include gt-xs {
+            width: 100%;
+        }
 
         &__image {
             object-fit: cover;

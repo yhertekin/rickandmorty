@@ -86,6 +86,12 @@
         &::-webkit-scrollbar {
             display: none;
         }
+
+        @include gt-xs {
+            display: grid;
+        }
+
+        @extend %layout-grid;
     }
 }
 
