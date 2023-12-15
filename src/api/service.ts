@@ -18,7 +18,6 @@ export const GetLocation = async (endpoint: string): Promise<ILocationResult | n
 };
 
 export const GetLocationsByPage = async (pageQuery: string): Promise<ILocationResponse | null> => {
-    console.log("GetLocationByPage Address: ", `${LocationsEndpoint}?page=${pageQuery}`);
     let response = await fetch(`${LocationsEndpoint}?page=${pageQuery}`);
 
     if (response.ok) {
@@ -30,7 +29,6 @@ export const GetLocationsByPage = async (pageQuery: string): Promise<ILocationRe
 };
 
 export const GetLocationById = async (id: string): Promise<ILocationResult | null> => {
-    console.log("GetLocationById Address: ", `${LocationsEndpoint}/${id}`);
     let response = await fetch(`${LocationsEndpoint}/${id}`);
 
     if (response.ok) {
@@ -42,7 +40,6 @@ export const GetLocationById = async (id: string): Promise<ILocationResult | nul
 };
 
 export const GetCharactersByIds = async (idList: string[]): Promise<ICharacterResponse[] | null> => {
-    console.log("GetCharactersByIds Address: ", `${CharactersEndpoint}/${idList}`);
     let response = await fetch(`${CharactersEndpoint}/${idList}`);
 
     if (response.ok) {
@@ -54,7 +51,6 @@ export const GetCharactersByIds = async (idList: string[]): Promise<ICharacterRe
 };
 
 export const GetCharacterById = async (id: string): Promise<ICharacterResponse | null> => {
-    console.log("GetCharacterById Address: ", `${CharactersEndpoint}/${id}`);
     let response = await fetch(`${CharactersEndpoint}/${id}`);
 
     if (response.ok) {

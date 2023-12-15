@@ -8,9 +8,6 @@ type TPaginationFooterProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const PaginationFooter = ({ pageCount, pathname, currentPage, className }: TPaginationFooterProps) => {
-    useEffect(() => {
-        console.log("PaginationFooter Component Mounted");
-    }, []);
     return (
         <div className={`pagination-footer ${className}`}>
             {Array.from({ length: pageCount }).map((v, pageNumber: number) => (

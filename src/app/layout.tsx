@@ -8,8 +8,6 @@ import localFont from "next/font/local";
 
 const myFont = localFont({ src: "./../fonts/WubbaLubbaDubDub.ttf" });
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
     title: "Rick And Morty",
     description: "Rick And Morty",
