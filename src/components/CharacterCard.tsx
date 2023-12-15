@@ -12,11 +12,13 @@ import Link from "next/link";
 
 type TCharacterCardProps = {
     character: ICharacterResponse;
-    detailed: boolean;
+    style?: "detailed" | "minified";
 };
 
-const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
-    const [state, setState] = useState<{ inFavorites: boolean }>({ inFavorites: false });
+const CharacterCard = ({ character, style }: TCharacterCardProps) => {
+    const [state, setState] = useState<{ inFavorites: boolean }>({
+        inFavorites: false,
+    });
     const favoriteCharactersList = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacters);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -33,7 +35,7 @@ const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
     }, [favoriteCharactersList]);
 
     return (
-        <div className='character'>
+        <div className={`character ${style ?? ""}`}>
             <div className='character__image__container'>
                 <Image
                     src={state.inFavorites ? FavoriteFilled : FavoriteEmpty}
@@ -51,28 +53,29 @@ const CharacterCard = ({ character, detailed }: TCharacterCardProps) => {
                     sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                 />
             </div>
-            <div className='character__info'>
-                <div>
-                    <Link href={`/character/${character.id}`}>
-                        <h1 className='character__info__name'>{character.name}</h1>
-                    </Link>
-                    <p
-                        className={`character__info__status character__info__status--${character.status.toLocaleLowerCase()}`}
-                    >
-                        {character.status} - {character.species}
-                    </p>
-                </div>
-                {detailed ? (
+            <div>
+                <div className='character__info'>
+                    <div>
+                        <Link href={`/character/${character.id}`}>
+                            <h1 className='character__info__name'>{character.name}</h1>
+                        </Link>
+                        <p className={`character__info__status ${character?.status?.toLocaleLowerCase()}`}>
+                            {character.status} - {character.species}
+                        </p>
+                    </div>
                     <div className='character__detail'>
-                        <span className='character__detail__type'>{character.type}</span>
+                        {character.type && <span className='character__detail__type'>{character.type}/</span>}
                         <span className='character__detail__gender'>{character.gender}</span>
                     </div>
-                ) : (
                     <div className='character__select'>
                         <Image src={NavigateNext} width='40' height='40' alt='Select Character' />
                     </div>
-                )}
-                {detailed && <div className='character__origin'>{character.origin.name}</div>}
+                </div>
+                <p className='character__origin'>{character?.origin?.name}</p>
+                <div className='character__detail--bottom'>
+                    {character.type && <span className='character__detail__type'>{character.type}/</span>}
+                    <span className='character__detail__gender'>{character.gender}</span>
+                </div>
             </div>
         </div>
     );

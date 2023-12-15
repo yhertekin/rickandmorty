@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import RickAndMorty from "@/assets/images/RickAndMorty.svg";
 import Image from "next/image";

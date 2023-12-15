@@ -4,6 +4,7 @@
     &__list {
         display: grid;
         grid-template-columns: 1fr;
+        gap: $space-4;
 
         @include gt-sm {
             grid-template-columns: repeat(2, 1fr);
@@ -14,9 +15,6 @@
         }
         padding-bottom: $space-20;
     }
-
-    &__footer {
-    }
 }
 
 .characters__page {
@@ -25,7 +23,6 @@
     & > div:nth-child(1) {
         display: flex;
         flex-direction: column;
-        margin: 0 $space-4;
 
         & > div:nth-child(1) {
             display: flex;
@@ -44,13 +41,15 @@
 
     .characters__page__filters {
         margin: $space-6 0;
-        a {
+        .status {
             margin-right: $space-4;
             padding: $space-2 $space-4;
             border-radius: $rounded;
+            border: none;
+            background-color: inherit;
         }
 
-        a:nth-child(1) {
+        .status--alive {
             box-shadow: $box-shadow-green;
             color: $green;
             &:hover,
@@ -59,7 +58,7 @@
                 color: white;
             }
         }
-        a:nth-child(2) {
+        .status--dead {
             box-shadow: $box-shadow-red;
             color: $red;
             &:hover,
@@ -68,7 +67,7 @@
                 color: white;
             }
         }
-        a:nth-child(3) {
+        .status--unknown {
             box-shadow: $box-shadow-brown;
             color: $brown;
             &:hover,
@@ -82,9 +81,26 @@
     &__characters {
         display: flex;
         overflow-x: scroll;
+        gap: $space-4;
 
         &::-webkit-scrollbar {
             display: none;
         }
     }
+}
+
+.character__page {
+    @extend %layout;
+    h2 {
+        margin-top: $space-6;
+    }
+    &__others {
+        @extend %layout-grid;
+        margin-top: $space-4;
+    }
+}
+
+.favorites__page {
+    @extend %layout;
+    @extend %layout-grid;
 }

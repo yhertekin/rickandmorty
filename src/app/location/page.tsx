@@ -1,7 +1,9 @@
 "use client";
 
 import { GetLocationsByPage } from "@/api/service";
+import Header from "@/components/Header";
 import LocationCard from "@/components/LocationCard";
+import Navigation from "@/components/Navigation";
 import PaginationFooter from "@/components/PaginationFooter";
 import { ILocationInfo, ILocationResponse, ILocationResult } from "@/interfaces/ILocation";
 import Link from "next/link";
@@ -41,10 +43,7 @@ const LocationsPage = () => {
             <div className='location__page__list'>
                 {state.locations &&
                     state.locations.results.map((location) => (
-                        <Link
-                            href={{ pathname: "character", query: { locationId: location.id, status: "all" } }}
-                            key={location.id}
-                        >
+                        <Link href={{ pathname: "character", query: { locationId: location.id } }} key={location.id}>
                             <LocationCard location={location} />
                         </Link>
                     ))}

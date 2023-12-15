@@ -1,7 +1,24 @@
 body {
     letter-spacing: 1px;
+    color: $brown;
 }
 
 %layout {
-    padding-top: $space-20;
+    padding: $space-24 $space-4 $space-4 $space-4;
+}
+
+%layout-grid {
+    display: grid;
+    gap: $space-4;
+    grid-template-columns: 1fr;
+
+    @include gt-xs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @include gt-sm {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    @include gt-md {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }

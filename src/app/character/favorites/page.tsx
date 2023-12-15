@@ -1,5 +1,7 @@
 "use client";
 import CharacterCard from "@/components/CharacterCard";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
 import { RootState } from "@/redux/store";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -13,10 +15,13 @@ const FavoriteCharactersPage = () => {
 
     return (
         <div>
-            {favoriteCharactersList.length > 0 &&
-                favoriteCharactersList.map((favorite) => (
-                    <CharacterCard character={favorite} detailed={true} key={favorite.id} />
-                ))}
+            <Navigation />
+            <div className='favorites__page'>
+                {favoriteCharactersList.length > 0 &&
+                    favoriteCharactersList.map((favorite) => (
+                        <CharacterCard character={favorite} style='detailed' key={favorite.id} />
+                    ))}
+            </div>
         </div>
     );
 };

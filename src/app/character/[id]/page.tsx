@@ -1,6 +1,8 @@
 "use client";
 import { GetCharacterById, GetCharactersByIds, GetLocation, GetLocationById } from "@/api/service";
 import CharacterCard from "@/components/CharacterCard";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
 import { characterIdsFromEndpoint } from "@/helper";
 import { ICharacterResponse } from "@/interfaces/ICharacter";
 import React, { useEffect, useState } from "react";
@@ -50,18 +52,23 @@ const CharacterDetailsPage = ({ params }: { params: TCharacterDetailsPageProps }
 
     return (
         <div>
-            <div>{state?.character && <CharacterCard character={state.character} detailed={true} />}</div>
-            <div>Other Characters</div>
-            {state.otherCharacters &&
-                state.otherCharacters
-                    .filter(
-                        (otherCharacter) =>
-                            otherCharacter.id !== Number(params.id) &&
-                            otherCharacter.status === state?.character?.status
-                    )
-                    .map((otherCharacter) => (
-                        <CharacterCard character={otherCharacter} detailed={false} key={otherCharacter.id} />
-                    ))}
+            <Navigation />
+            <div className='character__page'>
+                <div>{state?.character && <CharacterCard character={state.character} style='detailed' />}</div>
+                {state?.otherCharacters && <h2>Other Characters</h2>}
+                <div className='character__page__others'>
+                    {state.otherCharacters &&
+                        state.otherCharacters
+                            .filter(
+                                (otherCharacter) =>
+                                    otherCharacter.id !== Number(params.id) &&
+                                    otherCharacter.status === state?.character?.status
+                            )
+                            .map((otherCharacter) => (
+                                <CharacterCard character={otherCharacter} style='minified' key={otherCharacter.id} />
+                            ))}
+                </div>
+            </div>
         </div>
     );
 };

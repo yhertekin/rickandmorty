@@ -1,7 +1,13 @@
 .header {
     background-color: white;
-    width: 100vw;
+    // width: 100vw;
+    top: 0;
+    left: 0;
+    right: 0;
     position: fixed;
+    z-index: 100;
+    box-shadow: $box-shadow;
+
     &__image__container {
         display: block;
         width: 10rem;

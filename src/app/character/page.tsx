@@ -1,7 +1,8 @@
 "use client";
-import { GetCharactersByIds, GetLocationById } from "@/api/service";
+import { GetCharactersByLocation } from "@/api/service";
 import CharacterCard from "@/components/CharacterCard";
-import { characterIdsFromEndpoint } from "@/helper";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
 import { ICharacterResponse, TCharacterStatus } from "@/interfaces/ICharacter";
 import { ILocationResult } from "@/interfaces/ILocation";
 import Link from "next/link";
@@ -17,48 +18,32 @@ const CharactersPage = () => {
         location: ILocationResult | null;
         characters: ICharacterResponse[] | null;
         filteredCharacters: ICharacterResponse[] | null;
+        filter: TCharacterStatus | "All";
     }>({
         location: null,
         characters: null,
         filteredCharacters: null,
+        filter: "All",
     });
 
     const searchParams = useSearchParams();
     const locationId = searchParams.get("locationId");
-    const status = searchParams.get("status") || "all";
-
-    const getLocationData = async () => {
-        if (locationId) {
-            GetLocationById(locationId).then((data) => setState((prevState) => ({ ...prevState, location: data })));
-        }
-    };
-
-    const getCharacterData = async (characterIds: string[]) => {
-        GetCharactersByIds(characterIds).then((data) => {
-            const dataArr = Array.isArray(data) ? data : data !== null ? [data] : null;
-            setState((prevState) => ({
-                ...prevState,
-                characters: dataArr,
-                filteredCharacters: dataArr,
-            }));
-        });
-    };
 
     useEffect(() => {
-        getLocationData();
+        if (locationId) {
+            GetCharactersByLocation(locationId).then((characters) => {
+                setState((prevState) => ({
+                    ...prevState,
+                    characters: characters ?? [],
+                    filteredCharacters: characters ?? [],
+                }));
+            });
+        }
     }, [locationId]);
 
-    useEffect(() => {
-        if (state?.location) {
-            const characterIds = characterIdsFromEndpoint(state.location.residents);
-            console.log("Character Id", characterIds);
-            getCharacterData(characterIds);
-        }
-    }, [state?.location]);
-
-    useEffect(() => {
-        if (status === "all") {
-            return setState((prevState) => ({ ...prevState, filteredCharacters: prevState.characters }));
+    const filterHandler = (status: TCharacterStatus) => {
+        if (status === state.filter) {
+            return setState((prevState) => ({ ...prevState, filteredCharacters: prevState.characters, filter: "All" }));
         }
         setState((prevState) => {
             if (prevState.characters) {
@@ -66,58 +51,50 @@ const CharactersPage = () => {
                 return {
                     ...prevState,
                     filteredCharacters: filteredCharacters,
+                    filter: status,
                 };
             }
             return { ...prevState };
         });
-    }, [status]);
-
-    useEffect(() => {
-        console.log(state);
-    }, [state]);
+    };
 
     return (
-        <div className='characters__page'>
-            <div>
+        <div>
+            <Navigation />
+            <div className='characters__page'>
                 <div>
-                    <span>Filter By Status</span>
-                    <Link href='/character/favorites'>My Favorites</Link>
+                    <div>
+                        <span>Filter By Status</span>
+                        <Link href='/character/favorites'>My Favorites</Link>
+                    </div>
+                    <div className='characters__page__filters'>
+                        <button
+                            className={`status status--alive ${state.filter === "Alive" ? "selected" : ""}`}
+                            onClick={() => filterHandler("Alive")}
+                        >
+                            Alive
+                        </button>
+                        <button
+                            className={`status status--dead ${state.filter === "Dead" ? "selected" : ""}`}
+                            onClick={() => filterHandler("Dead")}
+                        >
+                            Dead
+                        </button>
+                        <button
+                            className={`status status--unknown ${state.filter === "Unknown" ? "selected" : ""}`}
+                            onClick={() => filterHandler("Unknown")}
+                        >
+                            Unknown
+                        </button>
+                    </div>
                 </div>
-                <div className='characters__page__filters'>
-                    <Link
-                        className={status === "Alive" ? "selected" : ""}
-                        href={{
-                            pathname: "/character",
-                            query: { locationId, status: status === "Alive" ? "all" : "Alive" },
-                        }}
-                    >
-                        Alive
-                    </Link>
-                    <Link
-                        className={status === "Dead" ? "selected" : ""}
-                        href={{
-                            pathname: "/character",
-                            query: { locationId, status: status === "Dead" ? "all" : "Dead" },
-                        }}
-                    >
-                        Dead
-                    </Link>
-                    <Link
-                        className={status === "Unknown" ? "selected" : ""}
-                        href={{
-                            pathname: "/character",
-                            query: { locationId, status: status === "Unknown" ? "all" : "Unknown" },
-                        }}
-                    >
-                        Unknown
-                    </Link>
+                <div className='characters__page__characters'>
+                    {state?.filteredCharacters &&
+                        state?.filteredCharacters?.length > 0 &&
+                        state?.filteredCharacters.map((character) => (
+                            <CharacterCard character={character} key={character.id} />
+                        ))}
                 </div>
-            </div>
-            <div className='characters__page__characters'>
-                {state?.filteredCharacters &&
-                    state?.filteredCharacters.map((character) => (
-                        <CharacterCard character={character} detailed={false} key={character.id} />
-                    ))}
             </div>
         </div>
     );

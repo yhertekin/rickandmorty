@@ -1,3 +1,4 @@
+import { characterIdsFromEndpoint } from "@/helper";
 import { ICharacterResponse } from "@/interfaces/ICharacter";
 import { ILocationResponse, ILocationResult } from "@/interfaces/ILocation";
 
@@ -62,4 +63,25 @@ export const GetCharacterById = async (id: string): Promise<ICharacterResponse |
     }
 
     return null;
+};
+
+export const GetCharactersByLocation = async (locationId: string): Promise<ICharacterResponse[] | null> => {
+    return GetLocationById(locationId).then((locationData) => {
+        if (locationData) {
+            const characterIds = characterIdsFromEndpoint(locationData?.residents);
+            if (characterIds.length > 0) {
+                return GetCharactersByIds(characterIds).then((charactersData) => {
+                    return (
+                        Array.isArray(charactersData)
+                            ? charactersData
+                            : charactersData !== null
+                            ? [charactersData]
+                            : null
+                    ) as ICharacterResponse[];
+                });
+            }
+            return null;
+        }
+        return null;
+    });
 };

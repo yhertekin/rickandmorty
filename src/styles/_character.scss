@@ -1,13 +1,9 @@
 .character {
-    margin: $space-4;
-    width: clamp(300px, 40vw, 400px);
-
     &__image__container {
         position: relative;
-        width: clamp(300px, 40vw, 400px);
-        height: clamp(300px, 40vw, 400px);
-        // max-width: 400px;
-        // max-height: 400px;
+        width: clamp(50px, 100vw, 300px);
+        height: auto;
+        aspect-ratio: 1;
 
         &__image {
             object-fit: cover;
@@ -18,7 +14,7 @@
             position: absolute;
             top: $space-4;
             right: $space-4;
-            z-index: 1000;
+            z-index: 10;
         }
     }
 
@@ -29,8 +25,7 @@
         margin-top: $space-4;
 
         &__name {
-            // max-width: px;
-            max-width: 200px;
+            max-width: 10ch;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -50,15 +45,90 @@
                 margin-right: $space-2;
             }
 
-            &--alive::before {
+            &.alive::before {
                 background-color: $green;
             }
-            &--dead::before {
+            &.dead::before {
                 background-color: $red;
             }
-            &--unknown::before {
+            &.unknown::before {
                 background-color: gray;
             }
         }
+
+        .character__detail {
+            display: none;
+
+            &--bottom {
+                display: none;
+            }
+        }
+    }
+    .character__origin {
+        display: none;
+    }
+}
+
+.character__page {
+    .character.detailed {
+        max-width: 400px;
+    }
+}
+.character.detailed {
+    width: 100%;
+
+    .character__image__container {
+        width: 100%;
+    }
+
+    .character__detail {
+        display: flex;
+        &--bottom {
+            display: none;
+        }
+    }
+    .character__origin {
+        display: flex;
+        font-style: italic;
+        font-size: 1.2rem;
+    }
+    .character__select {
+        display: none;
+    }
+}
+
+.character.minified {
+    display: flex;
+    gap: $space-4;
+
+    .character__image__container {
+        width: 100px;
+
+        &__favorite {
+            display: none;
+        }
+    }
+
+    .character__info {
+        margin: 0;
+
+        &__status {
+            display: none;
+        }
+    }
+
+    .character__detail {
+        display: none;
+    }
+    .character__origin {
+        display: flex;
+        font-style: italic;
+        font-size: 1.2rem;
+    }
+    .character__select {
+        display: none;
+    }
+    .character__detail--bottom {
+        display: block;
     }
 }
