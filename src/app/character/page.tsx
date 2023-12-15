@@ -58,6 +58,10 @@ const CharactersPage = () => {
         });
     };
 
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
+
     return (
         <div>
             <Navigation />
@@ -81,8 +85,8 @@ const CharactersPage = () => {
                             Dead
                         </button>
                         <button
-                            className={`status status--unknown ${state.filter === "Unknown" ? "selected" : ""}`}
-                            onClick={() => filterHandler("Unknown")}
+                            className={`status status--unknown ${state.filter === "unknown" ? "selected" : ""}`}
+                            onClick={() => filterHandler("unknown")}
                         >
                             Unknown
                         </button>

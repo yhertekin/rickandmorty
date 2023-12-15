@@ -13,7 +13,7 @@ export interface ICharacterResponse {
     created: string;
 }
 
-export type TCharacterStatus = "Alive" | "Dead" | "Unknown";
+export type TCharacterStatus = "Alive" | "Dead" | "unknown";
 
 export type TCharacterGender = "Female" | "Male" | "Genderless" | "Unknown";
 

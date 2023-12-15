@@ -9,6 +9,10 @@ import { useSelector } from "react-redux";
 const FavoriteCharactersPage = () => {
     const favoriteCharactersList = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacters);
 
+    useEffect(() => {
+        console.log(favoriteCharactersList);
+    }, []);
+
     return (
         <div>
             <Navigation />
